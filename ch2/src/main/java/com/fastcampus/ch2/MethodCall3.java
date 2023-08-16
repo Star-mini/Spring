@@ -15,6 +15,7 @@ import org.springframework.validation.support.BindingAwareModelMap;
 
 public class MethodCall3 {
 	public static void main(String[] args) throws Exception{
+		//1.요청할때 제공된 값- request.getParameterMap();
 		Map map = new HashMap();
 		map.put("year", "2021");
 		map.put("month", "10");
@@ -28,14 +29,15 @@ public class MethodCall3 {
 		Method main = clazz.getDeclaredMethod("main", int.class, int.class, int.class, Model.class);
 				
 		Parameter[] paramArr = main.getParameters();	//main메서드의 매개변수 목록을 가져온다.
-		Object[] argArr = new Object[main.getParameterCount()];
+		Object[] argArr = new Object[main.getParameterCount()];	//매개변수 갯수와 같은길이의 object배열을 생성
+		
 		
 		for(int i=0;i<paramArr.length;i++) {
 			String paramName = paramArr[i].getName();
 			Class  paramType = paramArr[i].getType();
 			Object value = map.get(paramName); // map에서 못찾으면 value는 null
 
-			// paramType중에 Model이 있으면, 생성 & 저장 
+			// paramType중에 Model이 있으면, 생성 & 저장  
 			if(paramType==Model.class) {
 				argArr[i] = model = new BindingAwareModelMap(); 
 			} else if(value != null) {  // map에 paramName이 있으면,
